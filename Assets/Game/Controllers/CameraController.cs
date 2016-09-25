@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour {
 
+    public float panSpeed = 0.1f;
+
     public Vector3 focusPoint = Vector3.zero;
     public float distanceFromFocusPoint = 30f;
 
@@ -20,6 +22,12 @@ public class CameraController : MonoBehaviour {
     Vector3 hAxis = Vector3.forward;
 
     void Update() {
+        // panning on touch drag
+        foreach (Vector3 pan in InputManager.GetDrags()) {
+            focusPoint.x += pan.x * panSpeed;
+            focusPoint.z += pan.y * panSpeed;
+        }
+
         // sideways device tilting
         hAxis = Quaternion.Euler(0, GetDeviceZTilt(), 0) * hAxis;
 
