@@ -4,18 +4,18 @@ using System.Collections.Generic;
 
 public class InputManager : MonoBehaviour {
 
-    public float maxTapDuration = 0.25f;
+    public float maxTapDuration = 0.15f;
+    public float maxTapOffset = 15;
 
     static InputManager instance;
-
-    public RectTransform buttonBar;
 
     List<Vector3> drags;
     List<RaycastHit> tapsOnMap;
     List<RaycastHit> tapsOnObjects;
     LayerMask ignoreTriggers;
 
-    Dictionary<int, float> touchTotalOffset;
+    Dictionary<int, float> touchTotalHoldTime;
+    Dictionary<int, Vector3> touchTotalOffset;
 
     void Awake() {
         instance = this;
@@ -27,7 +27,8 @@ public class InputManager : MonoBehaviour {
         tapsOnObjects = new List<RaycastHit>();
         ignoreTriggers = ~LayerMask.GetMask("Territory", "No Build");
 
-        touchTotalOffset = new Dictionary<int, float>();
+        touchTotalHoldTime = new Dictionary<int, float>();
+        touchTotalOffset = new Dictionary<int, Vector3>();
 
         WrappedTouch.Update();
     }
@@ -37,50 +38,59 @@ public class InputManager : MonoBehaviour {
         tapsOnMap.Clear();
         tapsOnObjects.Clear();
 
-        HandleTouch(new WrappedTouch(0));
-        foreach (Touch touch in Input.touches) {
-            HandleTap(new WrappedTouch(touch));
+        if (!Input.touchSupported) {
+            HandleTouch(new WrappedTouch(0));
+        } else {
+            foreach (Touch touch in Input.touches) {
+                HandleTouch(new WrappedTouch(touch));
+            }
         }
 
         WrappedTouch.Update();
     }
 
     void HandleTouch(WrappedTouch touch) {
-        if (touch.OnUI()) {
+        // ignore ui hits and cancelled touches
+        if (touch.OnUI() || touch.phase == TouchPhase.Canceled) {
             return;
         }
 
         // update held time for the touch
-        if (touch.phase != TouchPhase.Canceled) {
-            if (touchTotalOffset.ContainsKey(touch.id)) {
-                touchTotalOffset[touch.id] += touch.deltaTime;
-            } else {
-                touchTotalOffset[touch.id] = touch.deltaTime;
-            }
+        if (touchTotalHoldTime.ContainsKey(touch.id)) {
+            touchTotalHoldTime[touch.id] += touch.deltaTime;
+        } else {
+            touchTotalHoldTime[touch.id] = touch.deltaTime;
         }
 
-        float totalHoldTime = touchTotalOffset.ContainsKey(touch.id)
-            ? touchTotalOffset[touch.id]
-            : 0;
+        // update offset for the touch
+        if (touchTotalOffset.ContainsKey(touch.id)) {
+            touchTotalOffset[touch.id] += touch.deltaPosition;
+        } else {
+            touchTotalOffset[touch.id] = touch.deltaPosition;
+        }
+
+        float totalHoldTime = touchTotalHoldTime[touch.id];
+        Vector3 totalOffset = touchTotalOffset[touch.id];
+
+        OnScreenDebug.Log(touch.id.ToString(), touch.deltaPosition.ToString(), totalOffset.ToString(), totalOffset.magnitude.ToString(), maxTapOffset.ToString());
 
         if (touch.phase == TouchPhase.Moved) {
-            // considered a drag if the touch has held for a time
-            if (totalHoldTime > maxTapDuration) {
-                drags.Add(-touch.deltaPosition);
-            }
+            drags.Add(-touch.deltaPosition);
         } else if (touch.phase == TouchPhase.Ended) {
-            // not considered a tap if the touch has been held for too long
+            // not considered a tap if the touch has been held for too long or moved too far
+            //if (totalHoldTime < maxTapDuration && totalOffset.magnitude < maxTapOffset) {
             if (totalHoldTime < maxTapDuration) {
-                HandleTap(touch);
+                HandleTap(touch.position);
             }
 
             // finished touch, so remove
+            touchTotalHoldTime.Remove(touch.id);
             touchTotalOffset.Remove(touch.id);
         }
     }
 
-    void HandleTap(WrappedTouch touch) {
-        Ray ray = Camera.main.ScreenPointToRay(touch.position);
+    void HandleTap(Vector3 position) {
+        Ray ray = Camera.main.ScreenPointToRay(position);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, ignoreTriggers.value)) {
             if (hit.collider.CompareTag("Map")) {
@@ -144,9 +154,10 @@ public class InputManager : MonoBehaviour {
         }
 
         public bool OnUI() {
-            return isMouse
-                ? EventSystem.current.IsPointerOverGameObject() 
-                : EventSystem.current.IsPointerOverGameObject(id);
+            return false;
+            /*return isMouse
+                ? EventSystem.current.IsPointerOverGameObject()
+                : EventSystem.current.IsPointerOverGameObject(id);*/
         }
 
         public static void Update() {
