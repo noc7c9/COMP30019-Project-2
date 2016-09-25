@@ -16,7 +16,8 @@ public class UIManager : MonoBehaviour {
 
     public void IncrementUnitQueue() {
         CoreController core = SelectionManager.GetSelected().GetComponent<CoreController>();
-        if (core != null && UnitPointsManager.Decrement()) {
+        if (core != null && UnitPointsManager.CanDecrement()) {
+            UnitPointsManager.Decrement();
             core.QueueUnit();
         }
     }
@@ -24,7 +25,8 @@ public class UIManager : MonoBehaviour {
     public void DecrementUnitQueue() {
         CoreController core = SelectionManager.GetSelected().GetComponent<CoreController>();
         if (core != null && core.GetQueueSize() > 0) {
-            if (UnitPointsManager.Increment()) {
+            if (UnitPointsManager.CanIncrement()) {
+                UnitPointsManager.Increment();
                 core.UnqueueUnit();
             }
         }

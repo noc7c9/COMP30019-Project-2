@@ -11,7 +11,7 @@ public class HealthPoints : MonoBehaviour {
             if (!GetComponent<Alignment>().IsPlayerOwned()) {
                 BuildPointsManager.Increment();
             }
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 

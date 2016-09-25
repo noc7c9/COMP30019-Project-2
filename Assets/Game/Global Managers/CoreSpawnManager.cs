@@ -24,15 +24,15 @@ public class CoreSpawnManager : MonoBehaviour {
 
 	void Update() {
         foreach (RaycastHit hit in InputManager.GetTapsOnMap()) {
-            if (BuildPointsManager.Decrement()) {
+            if (ValidBuildLocation(hit.point) && BuildPointsManager.CanDecrement()) {
+                BuildPointsManager.Decrement();
                 SpawnCore(hit.point);
             }
         }
 	}
 
     bool SpawnCore(Vector3 position) {
-        // position must be in territory and outside no build zones
-        if (!InTerritory(position) || InNoBuildZone(position)) {
+        if (!ValidBuildLocation(position)) {
             return false;
         }
 
@@ -42,6 +42,10 @@ public class CoreSpawnManager : MonoBehaviour {
         newCore.GetComponent<Alignment>().IsPlayerOwned(true);
 
         return true;
+    }
+
+    bool ValidBuildLocation(Vector3 position) {
+        return InTerritory(position) && !InNoBuildZone(position);
     }
 
     bool InTerritory(Vector3 position, bool IsPlayerOwned=true) {

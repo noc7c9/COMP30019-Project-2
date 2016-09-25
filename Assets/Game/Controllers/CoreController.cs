@@ -32,6 +32,10 @@ public class CoreController : MonoBehaviour {
         GUI.Label(new Rect(center.x - 10, center.y - 10, 20, 20), queueCount.ToString(), "box");
     }
 
+    void OnDestroy() {
+        UnitPointsManager.Increment(queueCount);
+    }
+
     public void GenerateUnits() {
         bool isPlayerOwned = alignment.IsPlayerOwned();
         for (int i = 0; i < queueCount; i++) {

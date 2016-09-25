@@ -35,7 +35,7 @@ public class InputManager : MonoBehaviour {
     }
 
     void HandleTap(Vector2 position) {
-        if (buttonBar.rect.Contains(position)) {
+        if (EventSystem.current.IsPointerOverGameObject()) {
             return;
         }
         Ray ray = Camera.main.ScreenPointToRay(position);
