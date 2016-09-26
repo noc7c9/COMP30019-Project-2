@@ -4,7 +4,7 @@ using System.Collections;
 public class Floor : MonoBehaviour {
     public GameObject[] cores;
 
-    public readonly int MAX_CORES = 2;
+    public readonly int MAX_CORES = 20;
 
     // Use this for initialization
     void Start() {

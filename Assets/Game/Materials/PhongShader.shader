@@ -9,7 +9,7 @@
 
 #include "UnityCG.cginc"
 
-	#define MAX_CORES 10
+	#define MAX_CORES 20
 
 	uniform float3 _FloorColour;
 

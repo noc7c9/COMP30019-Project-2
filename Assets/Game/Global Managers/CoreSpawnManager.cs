@@ -15,6 +15,7 @@ public class CoreSpawnManager : MonoBehaviour {
         instance = this;
 
         corePrefab = (GameObject) Resources.Load("Core");
+        corePrefab.tag = "Core";
     }
 
     void Start() {
