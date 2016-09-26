@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+// Taken from lab 7
 
 public class PassArrayToShader : MonoBehaviour {
 
