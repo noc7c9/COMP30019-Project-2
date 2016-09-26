@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class InputManager : MonoBehaviour {
 
     public float maxTapDuration = 0.15f;
-    public float maxTapOffset = 15;
 
     static InputManager instance;
 
@@ -15,7 +14,6 @@ public class InputManager : MonoBehaviour {
     LayerMask ignoreTriggers;
 
     Dictionary<int, float> touchTotalHoldTime;
-    Dictionary<int, Vector3> touchTotalOffset;
 
     void Awake() {
         instance = this;
@@ -28,7 +26,6 @@ public class InputManager : MonoBehaviour {
         ignoreTriggers = ~LayerMask.GetMask("Territory", "No Build");
 
         touchTotalHoldTime = new Dictionary<int, float>();
-        touchTotalOffset = new Dictionary<int, Vector3>();
 
         WrappedTouch.Update();
     }
@@ -50,14 +47,10 @@ public class InputManager : MonoBehaviour {
     }
 
     void HandleTouch(WrappedTouch touch) {
-        // ignore ui hits and cancelled touches
+        // ignore ui hits and cancelled touches (including unclicked mouse)
         if (touch.OnUI() || touch.phase == TouchPhase.Canceled) {
-            if (touch.phase != TouchPhase.Canceled) {
-                OnScreenDebug.Log("ON UI");
-            }
             return;
         }
-        OnScreenDebug.Log("NOT ON UI");
 
         // update held time for the touch
         if (touchTotalHoldTime.ContainsKey(touch.id)) {
@@ -66,30 +59,18 @@ public class InputManager : MonoBehaviour {
             touchTotalHoldTime[touch.id] = touch.deltaTime;
         }
 
-        // update offset for the touch
-        if (touchTotalOffset.ContainsKey(touch.id)) {
-            touchTotalOffset[touch.id] += touch.deltaPosition;
-        } else {
-            touchTotalOffset[touch.id] = touch.deltaPosition;
-        }
-
         float totalHoldTime = touchTotalHoldTime[touch.id];
-        Vector3 totalOffset = touchTotalOffset[touch.id];
-
-        //OnScreenDebug.Log(touch.id.ToString(), touch.deltaPosition.ToString(), totalOffset.ToString(), totalOffset.magnitude.ToString(), maxTapOffset.ToString());
-
+        
         if (touch.phase == TouchPhase.Moved) {
             drags.Add(-touch.deltaPosition);
         } else if (touch.phase == TouchPhase.Ended) {
-            // not considered a tap if the touch has been held for too long or moved too far
-            //if (totalHoldTime < maxTapDuration && totalOffset.magnitude < maxTapOffset) {
+            // not considered a tap if the touch has been held for too long
             if (totalHoldTime < maxTapDuration) {
                 HandleTap(touch.position);
             }
 
             // finished touch, so remove
             touchTotalHoldTime.Remove(touch.id);
-            touchTotalOffset.Remove(touch.id);
         }
     }
 
