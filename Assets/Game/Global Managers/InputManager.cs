@@ -52,8 +52,12 @@ public class InputManager : MonoBehaviour {
     void HandleTouch(WrappedTouch touch) {
         // ignore ui hits and cancelled touches
         if (touch.OnUI() || touch.phase == TouchPhase.Canceled) {
+            if (touch.phase != TouchPhase.Canceled) {
+                OnScreenDebug.Log("ON UI");
+            }
             return;
         }
+        OnScreenDebug.Log("NOT ON UI");
 
         // update held time for the touch
         if (touchTotalHoldTime.ContainsKey(touch.id)) {
@@ -72,7 +76,7 @@ public class InputManager : MonoBehaviour {
         float totalHoldTime = touchTotalHoldTime[touch.id];
         Vector3 totalOffset = touchTotalOffset[touch.id];
 
-        OnScreenDebug.Log(touch.id.ToString(), touch.deltaPosition.ToString(), totalOffset.ToString(), totalOffset.magnitude.ToString(), maxTapOffset.ToString());
+        //OnScreenDebug.Log(touch.id.ToString(), touch.deltaPosition.ToString(), totalOffset.ToString(), totalOffset.magnitude.ToString(), maxTapOffset.ToString());
 
         if (touch.phase == TouchPhase.Moved) {
             drags.Add(-touch.deltaPosition);
@@ -154,10 +158,13 @@ public class InputManager : MonoBehaviour {
         }
 
         public bool OnUI() {
-            return false;
-            /*return isMouse
-                ? EventSystem.current.IsPointerOverGameObject()
-                : EventSystem.current.IsPointerOverGameObject(id);*/
+            // source: http://forum.unity3d.com/threads/ispointerovereventsystemobject-always-returns-false-on-mobile.265372/#post-1876138 
+            PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+            eventDataCurrentPosition.position = new Vector2(position.x, position.y);
+
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+            return results.Count > 0;
         }
 
         public static void Update() {
