@@ -4,10 +4,10 @@
 		Pass
 	{
 		CGPROGRAM
-#pragma vertex vert
-#pragma fragment frag
+	#pragma vertex vert
+	#pragma fragment frag
 
-#include "UnityCG.cginc"
+	#include "UnityCG.cginc"
 
 	#define MAX_CORES 20
 

@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Floor
-  m_Shader: {fileID: 4800000, guid: dd336b8cdd1fbbf4a94a29620f833b64, type: 3}
+  m_Name: unitSurface
+  m_Shader: {fileID: 4800000, guid: 984a96e4e4c385747b1b69a6ebf358b0, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
@@ -136,11 +136,3 @@ Material:
         first:
           name: _Color
         second: {r: 1, g: 1, b: 1, a: 1}
-      data:
-        first:
-          name: _PointLightPosition
-        second: {r: 0, g: 0, b: 0, a: 1}
-      data:
-        first:
-          name: _FloorColour
-        second: {r: 0, g: 0, b: 0, a: 1}
