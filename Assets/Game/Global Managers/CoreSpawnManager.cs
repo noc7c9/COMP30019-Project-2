@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class CoreSpawnManager : MonoBehaviour {
 
     static CoreSpawnManager instance;
+    public readonly float Y_POS = 1;
 
     GameObject corePrefab;
 
@@ -38,7 +39,7 @@ public class CoreSpawnManager : MonoBehaviour {
         }
 
         GameObject newCore = Instantiate<GameObject>(corePrefab);
-        newCore.transform.position = position;
+        newCore.transform.position = new Vector3(position.x,Y_POS,position.z);
 
         newCore.GetComponent<Alignment>().IsPlayerOwned(true);
 
