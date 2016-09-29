@@ -6,8 +6,6 @@ public class CoreController : MonoBehaviour {
     GameObject unitPrefab;
     Selectable selectable;
     Alignment alignment;
-    ParticleSystem ps;
-    HealthPoints h;
 
     public int queueCount = 0;
 
@@ -16,11 +14,6 @@ public class CoreController : MonoBehaviour {
 
         alignment = GetComponent<Alignment>();
         selectable = GetComponent<Selectable>();
-        ps = GetComponentInChildren<ParticleSystem>();
-        h = GetComponent<HealthPoints>();
-        //var em = ps.emission;
-        //em.enabled = false;
-        //ps.enableEmission = false;
     }
 
     void Start() {
@@ -38,13 +31,13 @@ public class CoreController : MonoBehaviour {
         center.y = Screen.height - center.y;
         GUI.Label(new Rect(center.x - 10, center.y - 10, 20, 20), queueCount.ToString(), "box");
     }
-    
+    /*
     void Update() {
         if (h.healthPoints <= 0) {
             ps.Emit(100);
             Destroy(this.gameObject,ps.duration);
         }
-    }
+    }*/
     
     void OnDestroy() {
         
