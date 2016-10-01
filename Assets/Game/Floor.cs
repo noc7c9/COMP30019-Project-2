@@ -18,10 +18,11 @@ public class Floor : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        this.cores = GameObject.FindGameObjectsWithTag("Core");
         Vector3[] corePositions = new Vector3[this.cores.Length];
         Color[] coreColours = new Color[this.cores.Length];
 
-        this.cores = GameObject.FindGameObjectsWithTag("Core");
+        
 
         if (cores.Length > MAX_CORES) {
             Debug.Log("More cores than the maximum allowable limit");
