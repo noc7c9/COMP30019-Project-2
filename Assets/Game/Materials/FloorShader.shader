@@ -1,9 +1,9 @@
 ﻿Shader "Custom/FloorShader" {
 	Properties {
-		_AmbientCoeff("Ambient Coefficient", Range(0,1)) = 1
-		_DiffuseCoeff("Diffuse Coefficient", Range(0,1)) = 0
-		_SpecularCoeff("Specular Coefficient", Range(0,1)) = 0
-		_SpecularPower("Specular Power", Float) = 200
+		_GridBrightness("Grid Brightness", Range(0.00001, 1)) = 0.1
+		_TerritoryBrightness("Territory Brightness", Range(0, 1)) = 0.75
+
+		_CoreTerritoryRange("Core Territory Range", Float) = 15
 	}
 	SubShader {
 		Pass {
@@ -12,31 +12,26 @@
 			#pragma fragment frag
 
 			#define MAX_CORES 20
-			#define MAX_LIGHTS MAX_CORES
 
 			#include "UnityCG.cginc"
-			#include "PhongShader.cginc"
+			#include "Helpers.cginc"
+
+			uniform float _GridBrightness;
+			uniform float _TerritoryBrightness;
+
+			uniform float _CoreTerritoryRange;
 
 			uniform float4 _CoreColours[MAX_CORES];
 			uniform float3 _CorePositions[MAX_CORES];
 			uniform int _NumCores;
 
-			uniform float _AmbientCoeff;
-			uniform float _DiffuseCoeff;
-			uniform float _SpecularCoeff;
-			uniform float _SpecularPower;
-
 			struct vertIn {
 				float4 vertex : POSITION;
-				float4 normal : NORMAL;
-				float4 color : COLOR;
 			};
 
 			struct vertOut {
 				float4 vertex : SV_POSITION;
-				float4 color : COLOR;
 				float4 worldVertex : TEXCOORD0;
-				float3 worldNormal : TEXCOORD1;
 			};
 
 			// source: https://www.opengl.org/sdk/docs/man4/html/fract.xhtml
@@ -49,44 +44,51 @@
 				return abs(ddx(v)) + abs(ddy(v));
 			}
 
-			// source: // http://www.madebyevan.com/shaders/grid
-			float3 grid(float2 coord, float scale) {
+			// source: http://www.madebyevan.com/shaders/grid
+			float4 grid(float2 coord, float scale) {
 				coord = coord * 1 / scale;
 				float2 g = abs(fract(coord - 0.5) - 0.5) / fwidth(coord);
 				float l = min(g.x, g.y);
 				float v = 1.0 - min(l, 1.0);
-				return float3(v, v, v);
+				return float4(v, v, v, 1);
 			}
 
 			vertOut vert(vertIn v) {
 				vertOut o;
 
-				o.color = v.color;
-
 				o.worldVertex = worldVertex(v.vertex);
-				o.worldNormal = worldNormal(v.normal);
-
 				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
 
 				return o;
 			}
 
 			fixed4 frag(vertOut v) : SV_Target {
-				v.color.rgb = grid(v.worldVertex.xz, 4);
+				// generate color based on grid
+				float4 color = grid(v.worldVertex.xz, 4) * _GridBrightness;
 
-				float fAtt = 1;
-				v.color.rgb = phongLighting(
-					v.worldVertex, v.worldNormal, v.color,
-					fAtt,
-					_AmbientCoeff,
-					_DiffuseCoeff,
-					_SpecularCoeff, _SpecularPower,
-					_CorePositions, _CoreColours, _NumCores
-				);
-				v.color.a = v.color.a;
+				// find closest core (within territory range)
+				// and tint the grid with that core's color
+				float minDist = _CoreTerritoryRange;
+				float3 tint = float4(1, 1, 1, 1); // no tint by default
+				for (int i = 0; i < _NumCores; i++) {
+					// ignore y coord for distance
+					float dist = length(v.worldVertex.xz - _CorePositions[i].xz);
+					if (dist < minDist) {
+						minDist = dist;
 
-				return v.color;
+						// note: tint ignores grid brightness
+						tint = _CoreColours[i] * (1 / _GridBrightness) * _TerritoryBrightness;
+					}
+				}
+
+				// fade out edges of tint
+				float f = 1 - pow(minDist / _CoreTerritoryRange, 5);
+				// apply tint
+				color.rgb *= 1 - (tint.rgb * -1 + 1) * f;
+
+				return color;
 			}
+
 			ENDCG
 		}
 	}

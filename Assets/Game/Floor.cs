@@ -9,11 +9,6 @@ public class Floor : MonoBehaviour {
 
     void Start() {
         material = GetComponent<Renderer>().material;
-        
-        material.SetFloat("_AmbientCoeff", 1.0f);
-        material.SetFloat("_DiffuseCoeff", 1.0f);
-        material.SetFloat("_SpecularCoeff", 20.0f);
-        material.SetFloat("_SpecularPower", 200.0f);
     }
 
     void Update() {
