@@ -7,7 +7,7 @@ float4 worldVertex(float4 vertex) {
 #if UNITY_VERSION >= 540
 	return mul(unity_ObjectToWorld, vertex);
 #else
-	return mul(_ObjectToWorld, vertex);
+	return mul(_Object2World, vertex);
 #endif
 }
 
@@ -15,6 +15,6 @@ float3 worldNormal(float4 normal) {
 #if UNITY_VERSION >= 540
 	return normalize(mul(transpose((float3x3)unity_WorldToObject), normal.xyz));
 #else
-	return normalize(mul(transpose((float3x3)_WorldToObject), normal.xyz));
+	return normalize(mul(transpose((float3x3)_World2Object), normal.xyz));
 #endif
 }
