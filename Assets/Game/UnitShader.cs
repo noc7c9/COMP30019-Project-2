@@ -22,7 +22,7 @@ public class UnitShader : MonoBehaviour {
     void Update () {
         this.cores = GameObject.FindGameObjectsWithTag("Core");
 
-        Vector3[] corePositions = new Vector3[this.cores.Length];
+        Vector4[] corePositions = new Vector4[this.cores.Length];
         Color[] coreColours = new Color[this.cores.Length];
 
         GetComponent<Renderer>().material.SetInt("_NumCores", this.cores.Length);
@@ -33,7 +33,7 @@ public class UnitShader : MonoBehaviour {
         }
 
 
-        PassArrayToShader.Vector3(GetComponent<Renderer>().material, "_CorePositions", corePositions);
+        PassArrayToShader.Vector(GetComponent<Renderer>().material, "_CorePositions", corePositions);
         PassArrayToShader.Color(GetComponent<Renderer>().material, "_CoreColours", coreColours);
     }
 }

@@ -1,28 +1,38 @@
 ﻿using UnityEngine;
 using System.Collections;
-// Taken from lab 7
 
+// Note we're exploiting some sort of Unity "magic" whereby by appending an integer
+// to a uniform array name selects the specific array element based on that integer.
+//
+// For more info: http://www.alanzucconi.com/2016/01/27/arrays-shaders-heatmaps-in-unity3d/
+//
+// source: COMP30019 Graphics and Interation: Lab 7
 public class PassArrayToShader : MonoBehaviour {
 
-    // Note we're exploiting some sort of Unity "magic" whereby by appending an integer
-    // to a uniform array name selects the specific array element based on that integer.
+    public static void Vector(Material material, string name, Vector4[] array) {
+        #if UNITY_5_4_OR_NEWER
 
-    // Unity 5.4 and above provides an interface which renders this class unnecessary.
+        material.SetVectorArray(name, array);
 
-    // For more info: http://www.alanzucconi.com/2016/01/27/arrays-shaders-heatmaps-in-unity3d/
+        #else
 
-    // (It would be nice to use generics here, but unfortunately Unity itself does not
-    // provide a generic interface for setting a single parameter.)
-
-    public static void Vector3(Material material, string name, Vector3[] array)
-    {
         for (int i = 0; i < array.Length; i++)
             material.SetVector(name + i.ToString(), array[i]);
+
+        #endif
     }
 
-    public static void Color(Material material, string name, Color[] array)
-    {
+    public static void Color(Material material, string name, Color[] array) {
+        #if UNITY_5_4_OR_NEWER
+
+        material.SetColorArray(name, array);
+
+        #else
+
         for (int i = 0; i < array.Length; i++)
             material.SetColor(name + i.ToString(), array[i]);
+
+        #endif
     }
+
 }
