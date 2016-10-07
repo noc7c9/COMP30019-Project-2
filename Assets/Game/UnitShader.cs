@@ -29,7 +29,7 @@ public class UnitShader : MonoBehaviour {
 
         for (int i = 0; i < cores.Length; i++) {
             corePositions[i] = cores[i].transform.position;
-            coreColours[i] = cores[i].GetComponent<Renderer>().material.color;
+            coreColours[i] = cores[i].GetComponentInChildren<Renderer>().material.color;
         }
 
 

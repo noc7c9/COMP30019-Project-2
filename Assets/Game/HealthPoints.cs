@@ -5,17 +5,12 @@ public class HealthPoints : MonoBehaviour {
 
     public int healthPoints = 10;
     public int maxHealthPoints = 10;
-    GameObject unitPrefab;
+
     private bool displayHP = true;
     private ParticleSystem ps;
-
-    void Awake() {
-        unitPrefab = (GameObject)Resources.Load("Unit");
-    }
     
     void Update() {
         if (healthPoints <= 0) {
-            //Debug.Log("Destroy");
             if (!GetComponent<Alignment>().IsPlayerOwned()) {
                 BuildPointsManager.Increment();
             }

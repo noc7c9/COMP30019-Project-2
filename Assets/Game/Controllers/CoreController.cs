@@ -17,7 +17,6 @@ public class CoreController : MonoBehaviour {
     }
 
     void Start() {
-        GetComponentInChildren<Light>().color = GetComponent<Renderer>().material.color;
         if (!alignment.IsPlayerOwned()) {
             selectable.enabled = false;
         }

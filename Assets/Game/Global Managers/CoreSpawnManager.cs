@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 
 public class CoreSpawnManager : MonoBehaviour {
-
-    static CoreSpawnManager instance;
+    
     public readonly float Y_POS = 1;
 
     GameObject corePrefab;
@@ -13,8 +12,6 @@ public class CoreSpawnManager : MonoBehaviour {
     float placementCheckRadius = 0.5f;
 
     void Awake() {
-        instance = this;
-
         corePrefab = (GameObject) Resources.Load("Core");
         corePrefab.tag = "Core";
     }

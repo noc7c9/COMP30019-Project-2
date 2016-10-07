@@ -23,7 +23,7 @@ public class Floor : MonoBehaviour {
 
         for (int i = 0; i < numCores; i++) {
             corePositions[i] = cores[i].transform.position;
-            coreColours[i] = cores[i].GetComponent<Renderer>().material.color;
+            coreColours[i] = cores[i].GetComponentInChildren<Renderer>().material.color;
         }
         
         material.SetInt("_NumCores", numCores);

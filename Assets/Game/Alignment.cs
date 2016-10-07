@@ -10,7 +10,7 @@ public class Alignment : MonoBehaviour {
     }
 
     void RefreshColor() {
-        Renderer renderer = GetComponent<Renderer>();
+        Renderer renderer = GetComponentInChildren<Renderer>();
         if (renderer) {
             renderer.material.color = playerOwned ? Color.blue : Color.red;
         }
