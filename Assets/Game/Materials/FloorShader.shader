@@ -1,6 +1,6 @@
 ﻿Shader "Custom/FloorShader" {
 	Properties {
-		_GridBrightness("Grid Brightness", Range(0.00001, 1)) = 0.1
+		_GridBrightness("Grid Brightness", Range(0.01, 1)) = 0.1
 		_TerritoryBrightness("Territory Brightness", Range(0, 1)) = 0.75
 
 		_CoreTerritoryRange("Core Territory Range", Float) = 15
