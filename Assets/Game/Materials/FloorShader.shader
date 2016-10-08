@@ -7,14 +7,17 @@
 	}
 	SubShader {
 		Pass {
+			Tags{ "LightMode" = "ForwardBase" }
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-
+			#pragma multi_compile_fwdbase
+			
 			#define MAX_CORES 20
 
 			#include "UnityCG.cginc"
 			#include "Helpers.cginc"
+			#include "AutoLight.cginc"
 
 			uniform float _GridBrightness;
 			uniform float _TerritoryBrightness;
@@ -32,6 +35,7 @@
 			struct vertOut {
 				float4 vertex : SV_POSITION;
 				float4 worldVertex : TEXCOORD0;
+				LIGHTING_COORDS(1, 2)
 			};
 
 			// source: https://www.opengl.org/sdk/docs/man4/html/fract.xhtml
@@ -49,7 +53,8 @@
 				coord = coord * 1 / scale;
 				float2 g = abs(fract(coord - 0.5) - 0.5) / fwidth(coord);
 				float l = min(g.x, g.y);
-				float v = 1.0 - min(l, 1.0);
+				// make this 1 - min(l, 1.0) to make the grid black again
+				float v = min(l, 1.0);
 				return float4(v, v, v, 1);
 			}
 
@@ -58,7 +63,9 @@
 
 				o.worldVertex = worldVertex(v.vertex);
 				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
-
+				
+				TRANSFER_VERTEX_TO_FRAGMENT(o);
+				
 				return o;
 			}
 
@@ -69,7 +76,7 @@
 				// find closest core (within territory range)
 				// and tint the grid with that core's color
 				float minDist = _CoreTerritoryRange;
-				float3 tint = float4(1, 1, 1, 1); // no tint by default
+				float3 tint = float4(1, 0, 0, 0); // no tint by default
 				for (int i = 0; i < _NumCores; i++) {
 					// ignore y coord for distance
 					float dist = length(v.worldVertex.xz - _CorePositions[i].xz);
@@ -86,7 +93,10 @@
 				// apply tint
 				color.rgb *= 1 - (tint.rgb * -1 + 1) * f;
 
-				return color;
+				// Add in shadows
+				float attenuation = LIGHT_ATTENUATION(v);
+
+				return color * attenuation;
 			}
 
 			ENDCG
