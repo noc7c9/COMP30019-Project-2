@@ -11,27 +11,25 @@ public class PassArrayToShader : MonoBehaviour {
 
     public static void Vector(Material material, string name, Vector4[] array) {
         #if UNITY_5_4_OR_NEWER
-
-        material.SetVectorArray(name, array);
-
+        if (array.Length > 0) {
+            material.SetVectorArray(name, array);
+        }
         #else
-
-        for (int i = 0; i < array.Length; i++)
+        for (int i = 0; i < array.Length; i++) {
             material.SetVector(name + i.ToString(), array[i]);
-
+        }
         #endif
     }
 
     public static void Color(Material material, string name, Color[] array) {
         #if UNITY_5_4_OR_NEWER
-
-        material.SetColorArray(name, array);
-
+        if (array.Length > 0) {
+            material.SetColorArray(name, array);
+        }
         #else
-
-        for (int i = 0; i < array.Length; i++)
+        for (int i = 0; i < array.Length; i++) {
             material.SetColor(name + i.ToString(), array[i]);
-
+        }
         #endif
     }
 
