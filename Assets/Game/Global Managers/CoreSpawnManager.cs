@@ -2,33 +2,32 @@
 using System.Collections.Generic;
 
 public class CoreSpawnManager : MonoBehaviour {
-    
-    public readonly float Y_POS = 1;
 
     GameObject corePrefab;
 
-    int territoryMask;
-    int noBuildMask;
-    float placementCheckRadius = 0.5f;
+    int inTerritoryCheckLayerMask;
+    int unoccupiedCheckLayerMask;
+    float placementCheckRadius = 0.1f;
+    float coreRadius;
 
     void Awake() {
         corePrefab = (GameObject) Resources.Load("Core");
-        corePrefab.tag = "Core";
+        coreRadius = corePrefab.GetComponent<CapsuleCollider>().radius;
     }
 
     void Start() {
-        territoryMask = LayerMask.GetMask("Territory");
-        noBuildMask = LayerMask.GetMask("No Build");
+        inTerritoryCheckLayerMask = LayerMask.GetMask("Territory");
+        unoccupiedCheckLayerMask = ~LayerMask.GetMask("Territory", "Floor");
     }
 
-	void Update() {
+    void Update() {
         foreach (RaycastHit hit in InputManager.GetTapsOnMap()) {
             if (ValidBuildLocation(hit.point) && BuildPointsManager.CanDecrement()) {
                 BuildPointsManager.Decrement();
                 SpawnCore(hit.point);
             }
         }
-	}
+    }
 
     bool SpawnCore(Vector3 position) {
         if (!ValidBuildLocation(position)) {
@@ -36,7 +35,11 @@ public class CoreSpawnManager : MonoBehaviour {
         }
 
         GameObject newCore = Instantiate<GameObject>(corePrefab);
-        newCore.transform.position = new Vector3(position.x,Y_POS,position.z);
+        newCore.transform.position = new Vector3(
+            position.x,
+            position.y + newCore.transform.position.y, // floor y + y offset
+            position.z
+        );
 
         newCore.GetComponent<Alignment>().IsPlayerOwned(true);
 
@@ -44,20 +47,17 @@ public class CoreSpawnManager : MonoBehaviour {
     }
 
     bool ValidBuildLocation(Vector3 position) {
-        return InTerritory(position) && !InNoBuildZone(position);
+        return InTerritory(position)
+            && !Physics.CheckSphere(position, coreRadius, unoccupiedCheckLayerMask);
     }
 
     bool InTerritory(Vector3 position, bool IsPlayerOwned=true) {
-        foreach (Collider c in Physics.OverlapSphere(position, placementCheckRadius, territoryMask)) {
+        foreach (Collider c in Physics.OverlapSphere(position, placementCheckRadius, inTerritoryCheckLayerMask)) {
             if (c.transform.parent.GetComponent<Alignment>().IsPlayerOwned()) {
                 return true;
             }
         }
         return false;
-    }
-
-    bool InNoBuildZone(Vector3 position) {
-        return Physics.CheckSphere(position, placementCheckRadius, noBuildMask);
     }
 
     public static CoreController[] GetAllCores() {
