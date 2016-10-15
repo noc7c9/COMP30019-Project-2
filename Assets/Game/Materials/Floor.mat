@@ -19,7 +19,7 @@ Material:
       data:
         first:
           name: _GridBrightness
-        second: 0.728
+        second: 0.15
       data:
         first:
           name: _TerritoryBrightness
@@ -28,4 +28,8 @@ Material:
         first:
           name: _CoreTerritoryRange
         second: 15
+      data:
+        first:
+          name: _ShadowBrightness
+        second: 0.1
     m_Colors: {}
