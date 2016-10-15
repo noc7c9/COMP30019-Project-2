@@ -3,6 +3,7 @@ using System.Collections;
 
 public class UnitWeaponry : MonoBehaviour {
 
+    public BasePayload payload;
     GameObject projectilePrefab;
     GameObject target;
     Alignment alignment;
@@ -29,11 +30,7 @@ public class UnitWeaponry : MonoBehaviour {
         fireCooldown -= Time.deltaTime;
         if (fireCooldown <= 0) {
             fireCooldown = fireCooldownMax;
-            GameObject projectile = Instantiate<GameObject>(projectilePrefab);
-            Vector3 dir = (target.transform.position - transform.position).normalized;
-            projectile.transform.position = transform.position + 2 * dir;
-            projectile.GetComponent<Rigidbody>().velocity = projectileVelocity * dir;
-            projectile.GetComponent<Alignment>().IsPlayerOwned(alignment.IsPlayerOwned());
+            payload.Generate(transform.position, target, alignment);
         }
     }
 

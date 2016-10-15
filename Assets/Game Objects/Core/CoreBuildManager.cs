@@ -41,7 +41,8 @@ public class CoreBuildManager : MonoBehaviour {
             position.z
         );
 
-        newCore.GetComponent<Alignment>().IsPlayerOwned(true);
+        newCore.GetComponent<Alignment>().SetAsPlayerOwned();
+        newCore.GetComponent<Selectable>().enabled = true;
 
         return true;
     }
@@ -51,7 +52,7 @@ public class CoreBuildManager : MonoBehaviour {
             && !Physics.CheckSphere(position, coreRadius, unoccupiedCheckLayerMask);
     }
 
-    bool InTerritory(Vector3 position, bool IsPlayerOwned=true) {
+    bool InTerritory(Vector3 position) {
         // find the closest core
         Transform closestCore = null;
         float minDist = Mathf.Infinity;
@@ -66,7 +67,7 @@ public class CoreBuildManager : MonoBehaviour {
 
         // position is valid if in territory and the closest core is an ally
         return closestCore != null
-            && closestCore.GetComponent<Alignment>().IsPlayerOwned() == IsPlayerOwned;
+            && closestCore.GetComponent<Alignment>().IsPlayerOwned();
     }
 
     public static CoreController[] GetAllCores() {

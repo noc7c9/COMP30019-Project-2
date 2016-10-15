@@ -188,6 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8556f2726e2c804499ce320c5f7c71c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  payload: {fileID: 11421302, guid: 482f5309536dfcc4987a0844ca1d6b65, type: 2}
   range: 35
   projectileVelocity: 100
   fireCooldownMax: 1

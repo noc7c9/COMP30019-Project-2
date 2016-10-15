@@ -4,7 +4,6 @@ using System.Collections;
 public class CoreController : MonoBehaviour {
 
     GameObject unitPrefab;
-    Selectable selectable;
     Alignment alignment;
 
     public int queueCount = 0;
@@ -13,13 +12,6 @@ public class CoreController : MonoBehaviour {
         unitPrefab = (GameObject) Resources.Load("Unit");
 
         alignment = GetComponent<Alignment>();
-        selectable = GetComponent<Selectable>();
-    }
-
-    void Start() {
-        if (!alignment.IsPlayerOwned()) {
-            selectable.enabled = false;
-        }
     }
 
     void OnGUI() {
@@ -44,11 +36,10 @@ public class CoreController : MonoBehaviour {
     }
 
     public void GenerateUnits() {
-        bool isPlayerOwned = alignment.IsPlayerOwned();
         for (int i = 0; i < queueCount; i++) {
             GameObject newUnit = Instantiate<GameObject>(unitPrefab);
             newUnit.transform.position = transform.position;
-            newUnit.GetComponent<Alignment>().IsPlayerOwned(isPlayerOwned);
+            newUnit.GetComponent<Alignment>().SetAsAllyTo(alignment);
         }
     }
 

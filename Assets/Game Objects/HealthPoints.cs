@@ -10,7 +10,8 @@ public class HealthPoints : MonoBehaviour {
     private ParticleSystem ps;
     
     void Update() {
-        if (healthPoints <= 0) {
+        if (enabled && healthPoints <= 0) {
+            enabled = false;
             if (!GetComponent<Alignment>().IsPlayerOwned()) {
                 BuildPointsManager.Increment();
             }
