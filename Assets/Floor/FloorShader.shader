@@ -17,9 +17,9 @@
 			
 			#define MAX_CORES 20
 
-			#include "UnityCG.cginc"
-			#include "Helpers.cginc"
+			#include "UnityShaderVariables.cginc"
 			#include "AutoLight.cginc"
+			#include "Assets/Helpers/Helpers.cginc"
 
 			uniform float _GridBrightness;
 			uniform float _TerritoryBrightness;

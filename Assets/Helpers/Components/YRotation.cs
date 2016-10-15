@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class LightRotation : MonoBehaviour {
+public class YRotation : MonoBehaviour {
 
     public float speed = 0.1f;
         

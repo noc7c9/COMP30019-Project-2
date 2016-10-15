@@ -73,11 +73,14 @@ public class ScreenLogger : MonoBehaviour {
 	}
 
 	private static string[] ConvertToStringArray(object[] objs) {
-		return Array.ConvertAll(objs, o => o == null ? "null" : o.ToString());
+        string[] result = new string[objs.Length];
+        for (int i = 0; i < objs.Length; i++) {
+            result[i] = objs[i] == null ? "null" : objs[i].ToString();
+        }
+        return result;
 	}
 
 	private static void LogMsg(string msg) {
-		Debug.Log(msg);
 		getInstance().AddMsg(msg);
 	}
 
