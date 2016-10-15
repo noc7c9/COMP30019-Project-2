@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class WaveManager : MonoBehaviour {
 
@@ -25,7 +24,7 @@ public class WaveManager : MonoBehaviour {
 	}
 
     void GenerateWave() {
-        foreach (CoreController core in CoreSpawnManager.GetAllCores()) {
+        foreach (CoreController core in CoreBuildManager.GetAllCores()) {
             core.GenerateUnits();
         }
     }

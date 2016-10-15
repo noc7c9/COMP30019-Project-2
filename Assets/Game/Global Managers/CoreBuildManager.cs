@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class CoreSpawnManager : MonoBehaviour {
+public class CoreBuildManager : MonoBehaviour {
 
     GameObject corePrefab;
 
@@ -22,7 +22,7 @@ public class CoreSpawnManager : MonoBehaviour {
 
     void Update() {
         foreach (RaycastHit hit in InputManager.GetTapsOnMap()) {
-            if (ValidBuildLocation(hit.point) && BuildPointsManager.CanDecrement()) {
+            if (BuildPointsManager.CanDecrement()) {
                 BuildPointsManager.Decrement();
                 SpawnCore(hit.point);
             }
@@ -52,12 +52,21 @@ public class CoreSpawnManager : MonoBehaviour {
     }
 
     bool InTerritory(Vector3 position, bool IsPlayerOwned=true) {
+        // find the closest core
+        Transform closestCore = null;
+        float minDist = Mathf.Infinity;
         foreach (Collider c in Physics.OverlapSphere(position, placementCheckRadius, inTerritoryCheckLayerMask)) {
-            if (c.transform.parent.GetComponent<Alignment>().IsPlayerOwned()) {
-                return true;
+            Transform core = c.transform.parent;
+            float dist = (core.position - position).sqrMagnitude;
+            if (dist < minDist || closestCore == null) {
+                minDist = dist;
+                closestCore = core;
             }
         }
-        return false;
+
+        // position is valid if in territory and the closest core is an ally
+        return closestCore != null
+            && closestCore.GetComponent<Alignment>().IsPlayerOwned() == IsPlayerOwned;
     }
 
     public static CoreController[] GetAllCores() {
