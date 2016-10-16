@@ -20,6 +20,8 @@ public class Laser : BasePayload {
         if (isHit && alignment.IsEnemyTo(hitObject)) {
             HealthPoints hp = hitObject.GetComponent<HealthPoints>();
             hp.healthPoints--;
+        } else {
+            Destroy(gameObject);
         }
 	}
 	
