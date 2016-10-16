@@ -10,7 +10,7 @@ public class Laser : BasePayload {
         line = GetComponent<LineRenderer>();
         line.SetPosition(0, startPos);
         line.SetPosition(1, target.transform.position);
-        line.material.color = alignment.GetColor();
+        line.SetColors(alignment.GetColor(), alignment.GetColor());
 
         // raycast and see if target is hit
         // if target is hit, then apply damage
@@ -26,6 +26,7 @@ public class Laser : BasePayload {
 	}
 	
 	void Update() {
+        Debug.Log(GetComponent<LineRenderer>().material.color);
         // display laser beam for a split second
         lifeSpan -= Time.deltaTime;
         if (lifeSpan <= 0) {

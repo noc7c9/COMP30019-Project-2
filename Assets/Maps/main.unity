@@ -20,12 +20,12 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 1, g: 1, b: 1, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 1
-  m_AmbientMode: 0
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_AmbientIntensity: 0
+  m_AmbientMode: 3
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -366,7 +366,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 494834, guid: 52557772f41624c4c91b3551669da287, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 139590, guid: 52557772f41624c4c91b3551669da287, type: 2}
       propertyPath: m_Name
@@ -399,6 +399,22 @@ Prefab:
     - target: {fileID: 11481818, guid: 52557772f41624c4c91b3551669da287, type: 2}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11457540, guid: 52557772f41624c4c91b3551669da287, type: 2}
+      propertyPath: queueCount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 440622, guid: 52557772f41624c4c91b3551669da287, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 479502, guid: 52557772f41624c4c91b3551669da287, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 491718, guid: 52557772f41624c4c91b3551669da287, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 52557772f41624c4c91b3551669da287, type: 2}
@@ -440,7 +456,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 494834, guid: 52557772f41624c4c91b3551669da287, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11481818, guid: 52557772f41624c4c91b3551669da287, type: 2}
       propertyPath: selected
@@ -457,6 +473,18 @@ Prefab:
     - target: {fileID: 11481012, guid: 52557772f41624c4c91b3551669da287, type: 2}
       propertyPath: value
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 440622, guid: 52557772f41624c4c91b3551669da287, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 479502, guid: 52557772f41624c4c91b3551669da287, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 491718, guid: 52557772f41624c4c91b3551669da287, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 52557772f41624c4c91b3551669da287, type: 2}
@@ -880,7 +908,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 33.75, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
 --- !u!114 &1000995202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1275,7 +1303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   countdown: {fileID: 13727462}
   maxWaveTimer: 30
-  initialWaveTimer: 10
+  initialWaveTimer: 1
 --- !u!114 &1511811832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1444,7 +1472,7 @@ Light:
   serializedVersion: 6
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10

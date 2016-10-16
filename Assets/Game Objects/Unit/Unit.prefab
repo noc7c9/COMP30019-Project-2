@@ -28,6 +28,7 @@ GameObject:
   - 23: {fileID: 2351274}
   - 33: {fileID: 3324320}
   - 114: {fileID: 11406550}
+  - 114: {fileID: 11496584}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -110,7 +111,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: a91066c40ffe1414f9cb93d63a18ef6b, type: 2}
+  - {fileID: 2100000, guid: c016e5e55aa8a554ca570027ef91a603, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -233,6 +234,17 @@ MonoBehaviour:
   payload: {fileID: 11421302, guid: 482f5309536dfcc4987a0844ca1d6b65, type: 2}
   range: 35
   fireCooldownMax: 1
+--- !u!114 &11496584
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 406669381c4d0454da31b0d299fe9ba5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &13532432
 SphereCollider:
   m_ObjectHideFlags: 1

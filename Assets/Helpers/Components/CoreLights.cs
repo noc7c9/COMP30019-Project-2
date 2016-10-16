@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Floor : MonoBehaviour {
+public class CoreLights : MonoBehaviour {
 
     public readonly int MAX_CORES = 20;
 

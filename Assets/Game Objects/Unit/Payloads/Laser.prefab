@@ -51,7 +51,7 @@ LineRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_Materials:
-  - {fileID: 2100000, guid: a91066c40ffe1414f9cb93d63a18ef6b, type: 2}
+  - {fileID: 2100000, guid: b45ade53cc5492a45aaffe9a11810b85, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -71,8 +71,8 @@ LineRenderer:
   - {x: 10, y: 0, z: -10}
   - {x: -10, y: 0, z: 10}
   m_Parameters:
-    startWidth: 0.15
-    endWidth: 0.1
+    startWidth: 0.05
+    endWidth: 0.05
     m_StartColor:
       serializedVersion: 2
       rgba: 4294967295
