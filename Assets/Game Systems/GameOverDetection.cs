@@ -18,9 +18,9 @@ public class GameOverDetection : MonoBehaviour {
         CoreBuildManager.ProcessCores(ref playerCores, ref enemyCores);
 
         if (playerCores.Count <= 0) {
-            PlayerWins();
-        } else if (enemyCores.Count <= 0) {
             PlayerLoses();
+        } else if (enemyCores.Count <= 0) {
+            PlayerWins();
         }
     }
 

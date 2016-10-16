@@ -21,8 +21,8 @@ public class UnitMovement : MonoBehaviour {
                 //destination = GenerateRandomDestination();
             }
             agent.SetDestination(destination.Value);
-            //Debug.DrawLine(transform.position, destination, Color.black);
-            //Debug.DrawLine(transform.position, agent.steeringTarget, Color.blue);
+            Debug.DrawLine(transform.position, destination.Value, Color.black);
+            Debug.DrawLine(transform.position, agent.steeringTarget, Color.blue);
         }
     }
 
