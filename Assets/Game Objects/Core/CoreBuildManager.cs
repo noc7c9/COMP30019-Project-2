@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 public class CoreBuildManager : MonoBehaviour {
 
+    public GameObject corePrefab;
+
     BuildPointsManager buildPointsManager;
-    GameObject corePrefab;
 
     int inTerritoryCheckLayerMask;
     int unoccupiedCheckLayerMask;
@@ -12,7 +13,6 @@ public class CoreBuildManager : MonoBehaviour {
     float coreRadius;
 
     void Awake() {
-        corePrefab = (GameObject) Resources.Load("Core");
         coreRadius = corePrefab.GetComponent<CapsuleCollider>().radius;
     }
 

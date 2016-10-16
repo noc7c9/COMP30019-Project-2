@@ -3,17 +3,15 @@ using System.Collections;
 
 public class CoreController : MonoBehaviour {
 
+    public GameObject unitPrefab;
+
     UnitPointsManager unitPointsManager;
     Alignment alignment;
-
-    GameObject unitPrefab;
 
     [SerializeField]
     int queueCount = 0;
 
     void Awake() {
-        unitPrefab = (GameObject) Resources.Load("Unit");
-
         alignment = GetComponent<Alignment>();
 
         if (alignment.IsAllyTo(Alignment.PLAYER)) {
