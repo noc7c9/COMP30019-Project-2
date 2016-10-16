@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class CameraController : MonoBehaviour {
 
     public float panSpeed = 0.1f;
 
-    public Vector3 focusPoint = Vector3.zero;
+    public Transform focusPoint;
     public float distanceFromFocusPoint = 30f;
 
     public float zTiltSpeed = 15;
@@ -27,9 +27,14 @@ public class CameraController : MonoBehaviour {
         #endif
 
         // panning on touch drag
-        foreach (Vector3 pan in InputManager.GetDrags()) {
-            focusPoint.x += pan.x * panSpeed;
-            focusPoint.z += pan.y * panSpeed;
+        List<Vector3> drags = InputManager.GetDrags();
+        if (drags.Count > 0) {
+            Vector3 offset = Vector3.zero;
+            foreach (Vector3 pan in drags) {
+                offset.x += pan.x * panSpeed;
+                offset.z += pan.y * panSpeed;
+            }
+            focusPoint.position += offset / drags.Count;
         }
         
         // get device tilt values
@@ -49,7 +54,13 @@ public class CameraController : MonoBehaviour {
 
         transform.rotation = Quaternion.Slerp(minRot, maxRot, xTilt);
         transform.position = transform.rotation * Vector3.back * distanceFromFocusPoint;
-        transform.position += focusPoint;
+        transform.position += focusPoint.position;
+
+        // rotate focus point as well
+        focusPoint.localRotation = transform.localRotation;
+        Vector3 originalRotation = focusPoint.localEulerAngles;
+        originalRotation.x = 0;
+        focusPoint.localEulerAngles = originalRotation;
     }
 
     #if UNITY_EDITOR

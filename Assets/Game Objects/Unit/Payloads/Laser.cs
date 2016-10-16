@@ -26,7 +26,6 @@ public class Laser : BasePayload {
 	}
 	
 	void Update() {
-        Debug.Log(GetComponent<LineRenderer>().material.color);
         // display laser beam for a split second
         lifeSpan -= Time.deltaTime;
         if (lifeSpan <= 0) {
