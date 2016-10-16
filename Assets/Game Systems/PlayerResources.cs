@@ -13,14 +13,17 @@ public class PlayerResources : MonoBehaviour {
     public Text buildPointsDisplay;
     public Text unitPointsDisplay;
 
+    CoreBuildManager coreBuildManager;
+
     void Awake() {
+        coreBuildManager = FindObjectOfType<CoreBuildManager>();
         buildPoints = new BuildPointsManager(initialBuildPoints);
         unitPoints = new UnitPointsManager(initialUnusedUnitPoints, initialMaxUnitPoints);
     }
 
     void Update() {
-        buildPointsDisplay.text = buildPoints.GetPoints().ToString();
-        unitPointsDisplay.text = unitPoints.GetUnusedPoints() + "/" + unitPoints.GetMaxPoints();
+        buildPointsDisplay.text = buildPoints.GetPoints() + "/" + coreBuildManager.coreBuildCost;
+        //unitPointsDisplay.text = unitPoints.GetUnusedPoints() + "/" + unitPoints.GetMaxPoints();
     }
 
 }

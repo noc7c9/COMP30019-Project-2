@@ -194,8 +194,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b535156627de146b7780decd552695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthPoints: 10
-  maxHealthPoints: 10
+  buildPointWorth: 3
+  healthPoints: 8
+  maxHealthPoints: 8
 --- !u!114 &11457540
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -208,7 +209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitPrefab: {fileID: 133244, guid: 267df9408eb989b42bd0fbf2fd797b4c, type: 2}
-  queueCount: 0
+  queueCount: 1
 --- !u!114 &11481012
 MonoBehaviour:
   m_ObjectHideFlags: 1

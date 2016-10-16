@@ -3,6 +3,13 @@ using System.Collections.Generic;
 
 public class CoreBuildManager : MonoBehaviour {
 
+    int coreCount = 0;
+    public int initialCoreBuildCost = 10;
+    public int coreBuildCost {
+        get {
+            return initialCoreBuildCost + coreCount;
+        }
+    }
     public GameObject corePrefab;
 
     BuildPointsManager buildPointsManager;
@@ -25,8 +32,8 @@ public class CoreBuildManager : MonoBehaviour {
 
     void Update() {
         foreach (RaycastHit hit in InputManager.GetTapsOnMap()) {
-            if (buildPointsManager.CanDecrement() && ValidBuildLocation(hit.point, Alignment.PLAYER)) {
-                buildPointsManager.Decrement();
+            if (buildPointsManager.CanDecrement(coreBuildCost) && ValidBuildLocation(hit.point, Alignment.PLAYER)) {
+                buildPointsManager.Decrement(coreBuildCost);
                 SpawnCore(hit.point, Alignment.PLAYER);
             }
         }
@@ -37,6 +44,7 @@ public class CoreBuildManager : MonoBehaviour {
             return false;
         }
 
+        coreCount++;
         GameObject newCore = Instantiate<GameObject>(corePrefab);
         newCore.transform.position = new Vector3(
             position.x,

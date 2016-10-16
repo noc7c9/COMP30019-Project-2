@@ -5,16 +5,18 @@ public class HealthPoints : MonoBehaviour {
 
     BuildPointsManager buildPointsManager;
 
+    public int buildPointWorth = 1;
+
     public int healthPoints = 10;
     public int maxHealthPoints = 10;
 
     bool displayHP = true;
     ParticleSystem ps;
 
-    void Awake() {
+    void Start() {
         // on destruction we will increment the opposing sides build points
         if (GetComponent<Alignment>().IsAllyTo(Alignment.PLAYER)) {
-
+            buildPointsManager = FindObjectOfType<EnemyMacroAI>().buildPoints;
         } else {
             buildPointsManager = FindObjectOfType<PlayerResources>().buildPoints;
         }
@@ -24,7 +26,7 @@ public class HealthPoints : MonoBehaviour {
         if (enabled && healthPoints <= 0) {
             enabled = false;
             if (buildPointsManager != null) {
-                buildPointsManager.Increment();
+                buildPointsManager.Increment(buildPointWorth);
             }
             displayHP = false;
             ps = GetComponentInChildren<ParticleSystem>();

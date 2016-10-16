@@ -29,7 +29,9 @@ public class EnemyMacroAI : MonoBehaviour {
 
         // if the ai has build points, build a core
         int maxAttempts = this.maxAttempts;
-        while (maxAttempts-- > 0 && buildPoints.CanDecrement()) { // loop until no more can be built
+        int cost = (int)(coreBuildManager.coreBuildCost * 1.1) + 1; // handicap
+        //ScreenLogger.Log(cost);
+        while (maxAttempts-- > 0 && buildPoints.CanDecrement(cost)) { // loop until no more can be built
             // get a position between an enemy core and a player core
             Vector3 playerCore = GetRandomPlayerCore().transform.position;
             Vector3 enemyCore = GetRandomEnemyCore().transform.position;
@@ -44,8 +46,8 @@ public class EnemyMacroAI : MonoBehaviour {
             // check if the position is valid
             //ScreenLogger.Log(playerCore, enemyCore, position, coreBuildManager.ValidBuildLocation(position, Alignment.ENEMY));
             if (coreBuildManager.ValidBuildLocation(position, Alignment.ENEMY)) {
+                buildPoints.Decrement(cost);
                 coreBuildManager.SpawnCore(position, Alignment.ENEMY);
-                buildPoints.Decrement();
             }
         }
 

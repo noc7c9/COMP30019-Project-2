@@ -11,24 +11,24 @@ public class CoreController : MonoBehaviour {
     [SerializeField]
     int queueCount = 0;
 
-    void Awake() {
+    void Start() {
         alignment = GetComponent<Alignment>();
 
         if (alignment.IsAllyTo(Alignment.PLAYER)) {
             unitPointsManager = FindObjectOfType<PlayerResources>().unitPoints;
         } else {
-
+            unitPointsManager = FindObjectOfType<EnemyMacroAI>().unitPoints;
         }
     }
 
-    void OnGUI() {
+    /*void OnGUI() {
         if (alignment.IsAllyTo(Alignment.ENEMY)) {
             return;
         }
         Vector2 center = Camera.main.WorldToScreenPoint(transform.position);
         center.y = Screen.height - center.y;
         GUI.Label(new Rect(center.x - 10, center.y - 10, 20, 20), queueCount.ToString(), "box");
-    }
+    }*/
     
     void OnDestroy() {
         if (unitPointsManager != null) {
