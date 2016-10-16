@@ -25,7 +25,7 @@ public class EnemyMacroAI : MonoBehaviour {
     }
 
     void Update() {
-        ProcessCores();
+        CoreBuildManager.ProcessCores(ref playerCores, ref enemyCores);
 
         // if the ai has build points, build a core
         int maxAttempts = this.maxAttempts;
@@ -62,19 +62,6 @@ public class EnemyMacroAI : MonoBehaviour {
 
     CoreController GetRandomEnemyCore() {
         return enemyCores[Random.Range(0, enemyCores.Count)];
-    }
-
-    void ProcessCores() {
-        CoreController[] allCores = FindObjectsOfType<CoreController>();
-        playerCores.Clear();
-        enemyCores.Clear();
-        foreach (CoreController core in allCores) {
-            if (core.gameObject.GetComponent<Alignment>().IsAllyTo(Alignment.PLAYER)) {
-                playerCores.Add(core);
-            } else {
-                enemyCores.Add(core);
-            }
-        }
     }
 
 }

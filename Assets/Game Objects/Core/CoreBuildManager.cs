@@ -73,4 +73,18 @@ public class CoreBuildManager : MonoBehaviour {
             && closestCore.GetComponent<Alignment>().IsAllyTo(alignment);
     }
 
+    public static void ProcessCores(ref List<CoreController> playerCores, ref List<CoreController> enemyCores) {
+        CoreController[] allCores = FindObjectsOfType<CoreController>();
+        playerCores.Clear();
+        enemyCores.Clear();
+        foreach (CoreController core in allCores) {
+            if (core.gameObject.GetComponent<Alignment>().IsAllyTo(Alignment.PLAYER)) {
+                playerCores.Add(core);
+            }
+            else {
+                enemyCores.Add(core);
+            }
+        }
+    }
+
 }
