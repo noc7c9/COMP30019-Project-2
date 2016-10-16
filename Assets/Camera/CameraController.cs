@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour {
     public float panSpeed = 0.1f;
 
     public Transform focusPoint;
-    public float distanceFromFocusPoint = 30f;
+    public float distanceFromFocusPoint = 40f;
 
     public float zTiltSpeed = 15;
     public float zTiltSmoothTime = 0.1f;
@@ -16,7 +16,8 @@ public class CameraController : MonoBehaviour {
     public float xTiltMinAngle = 15;
     [Range(0, 1)]
     public float xTiltDefaultValue = 0.25f;
-    public float xTiltSmoothTime = 0.2f;
+    public float xTiltSmoothTime = 0.5f;
+    public float xTileDeviceFlatMin = 0.8f;
 
     Vector3 vAxis = Vector3.down;
     Vector3 hAxis = Vector3.forward;
@@ -87,7 +88,8 @@ public class CameraController : MonoBehaviour {
         if (accel.sqrMagnitude == 0) {
             return xTiltDefaultValue;
         } else {
-            float newXTilt = 1 - Mathf.Abs(Mathf.Atan(accel.y / accel.z)) / (Mathf.PI / 2);
+            bool isDeviceFlat = (1 - Mathf.Abs(Mathf.Atan(accel.y / accel.z)) / (Mathf.PI / 2)) >= xTileDeviceFlatMin;
+            float newXTilt = isDeviceFlat ? 1 : xTiltDefaultValue;
             oldXTilt = Mathf.SmoothDamp(oldXTilt, newXTilt, ref xTiltSmoothVelocity, xTiltSmoothTime);
             return oldXTilt;
         }

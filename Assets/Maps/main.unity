@@ -1405,15 +1405,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5d9a5c9969fcd749852b9b711d2724f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panSpeed: 0.05
+  panSpeed: 0.1
   focusPoint: {fileID: 2073456000}
-  distanceFromFocusPoint: 30
+  distanceFromFocusPoint: 40
   zTiltSpeed: 15
   zTiltSmoothTime: 0.1
   zTiltMinimumMagnitude: 0.25
   xTiltMinAngle: 15
   xTiltDefaultValue: 0.25
-  xTiltSmoothTime: 0.2
+  xTiltSmoothTime: 0.5
+  xTileDeviceFlatMin: 0.8
 --- !u!1 &1026443161
 GameObject:
   m_ObjectHideFlags: 0
