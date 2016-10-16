@@ -376,10 +376,6 @@ Prefab:
       propertyPath: playerOwned
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 11457540, guid: 52557772f41624c4c91b3551669da287, type: 2}
-      propertyPath: queueCount
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 139590, guid: 52557772f41624c4c91b3551669da287, type: 2}
       propertyPath: m_TagString
       value: Core
@@ -1248,7 +1244,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1511811828}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.713585, y: 0.0000009536743, z: 2.206235}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -1278,7 +1274,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   countdown: {fileID: 13727462}
   maxWaveTimer: 30
-  initialWaveTimer: 0
+  initialWaveTimer: 10
 --- !u!114 &1511811832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1326,7 +1322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialBuildPoints: 10
-  initialUnusedUnitPoints: 2
+  initialUnusedUnitPoints: 5
   initialMaxUnitPoints: 5
   buildPointsDisplay: {fileID: 893962291}
   unitPointsDisplay: {fileID: 49686154}
@@ -1341,6 +1337,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2b8d572ca9738046a588f57904257d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxAttempts: 100
+  maxOffset: 5
+  coreRange: 15
   initialBuildPoints: 0
   initialMaxUnitPoints: 5
 --- !u!1 &1589645940

@@ -13,7 +13,7 @@ public class PlayerResources : MonoBehaviour {
     public Text buildPointsDisplay;
     public Text unitPointsDisplay;
 
-    void Start() {
+    void Awake() {
         buildPoints = new BuildPointsManager(initialBuildPoints);
         unitPoints = new UnitPointsManager(initialUnusedUnitPoints, initialMaxUnitPoints);
     }
