@@ -8,14 +8,15 @@ public class CoreController : MonoBehaviour {
 
     GameObject unitPrefab;
 
-    public int queueCount = 0;
+    [SerializeField]
+    int queueCount = 0;
 
     void Awake() {
         unitPrefab = (GameObject) Resources.Load("Unit");
 
         alignment = GetComponent<Alignment>();
 
-        if (alignment.IsPlayerOwned()) {
+        if (alignment.IsAllyTo(Alignment.PLAYER)) {
             unitPointsManager = FindObjectOfType<PlayerResources>().unitPoints;
         } else {
 
@@ -23,7 +24,7 @@ public class CoreController : MonoBehaviour {
     }
 
     void OnGUI() {
-        if (!alignment.IsPlayerOwned()) {
+        if (alignment.IsAllyTo(Alignment.ENEMY)) {
             return;
         }
         Vector2 center = Camera.main.WorldToScreenPoint(transform.position);

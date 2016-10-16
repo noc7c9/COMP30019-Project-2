@@ -13,7 +13,7 @@ public class HealthPoints : MonoBehaviour {
 
     void Awake() {
         // on destruction we will increment the opposing sides build points
-        if (GetComponent<Alignment>().IsPlayerOwned()) {
+        if (GetComponent<Alignment>().IsAllyTo(Alignment.PLAYER)) {
 
         } else {
             buildPointsManager = FindObjectOfType<PlayerResources>().buildPoints;

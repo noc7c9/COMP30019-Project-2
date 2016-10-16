@@ -44,7 +44,7 @@ public class UnitMovement : MonoBehaviour {
         CoreController closest = null;
         float minDist = Mathf.Infinity;
         foreach (CoreController core in GameObject.FindObjectsOfType<CoreController>()) {
-            if (core.GetComponent<Alignment>().IsPlayerOwned() != alignment.IsPlayerOwned()) {
+            if (core.GetComponent<Alignment>().IsEnemyTo(alignment)) {
                 float dist = (core.transform.position - transform.position).sqrMagnitude;
                 if (dist < minDist) {
                     minDist = dist;

@@ -378,7 +378,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11457540, guid: 52557772f41624c4c91b3551669da287, type: 2}
       propertyPath: queueCount
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 139590, guid: 52557772f41624c4c91b3551669da287, type: 2}
       propertyPath: m_TagString
@@ -454,13 +454,13 @@ Prefab:
       propertyPath: m_Name
       value: Initial Enemy Core
       objectReference: {fileID: 0}
-    - target: {fileID: 11457540, guid: 52557772f41624c4c91b3551669da287, type: 2}
-      propertyPath: queueCount
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 139590, guid: 52557772f41624c4c91b3551669da287, type: 2}
       propertyPath: m_TagString
       value: Core
+      objectReference: {fileID: 0}
+    - target: {fileID: 11481012, guid: 52557772f41624c4c91b3551669da287, type: 2}
+      propertyPath: value
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 52557772f41624c4c91b3551669da287, type: 2}
@@ -1233,6 +1233,7 @@ GameObject:
   - 114: {fileID: 1511811831}
   - 114: {fileID: 1511811834}
   - 114: {fileID: 1511811835}
+  - 114: {fileID: 1511811836}
   m_Layer: 0
   m_Name: Script Container
   m_TagString: Untagged
@@ -1329,6 +1330,19 @@ MonoBehaviour:
   initialMaxUnitPoints: 5
   buildPointsDisplay: {fileID: 893962291}
   unitPointsDisplay: {fileID: 49686154}
+--- !u!114 &1511811836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1511811828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b8d572ca9738046a588f57904257d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialBuildPoints: 0
+  initialMaxUnitPoints: 5
 --- !u!1 &1589645940
 GameObject:
   m_ObjectHideFlags: 0

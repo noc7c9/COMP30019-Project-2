@@ -25,15 +25,15 @@ public class CoreBuildManager : MonoBehaviour {
 
     void Update() {
         foreach (RaycastHit hit in InputManager.GetTapsOnMap()) {
-            if (buildPointsManager.CanDecrement()) {
+            if (buildPointsManager.CanDecrement() && ValidBuildLocation(hit.point, Alignment.PLAYER)) {
                 buildPointsManager.Decrement();
-                SpawnCore(hit.point);
+                SpawnCore(hit.point, Alignment.PLAYER);
             }
         }
     }
 
-    bool SpawnCore(Vector3 position) {
-        if (!ValidBuildLocation(position)) {
+    public bool SpawnCore(Vector3 position, Alignment.Value alignment) {
+        if (!ValidBuildLocation(position, alignment)) {
             return false;
         }
 
@@ -44,18 +44,18 @@ public class CoreBuildManager : MonoBehaviour {
             position.z
         );
 
-        newCore.GetComponent<Alignment>().SetAsPlayerOwned();
+        newCore.GetComponent<Alignment>().SetAsAllyTo(alignment);
         newCore.GetComponent<Selectable>().enabled = true;
 
         return true;
     }
 
-    bool ValidBuildLocation(Vector3 position) {
-        return InTerritory(position)
+    public bool ValidBuildLocation(Vector3 position, Alignment.Value alignment) {
+        return InTerritory(position, alignment)
             && !Physics.CheckSphere(position, coreRadius, unoccupiedCheckLayerMask);
     }
 
-    bool InTerritory(Vector3 position) {
+    bool InTerritory(Vector3 position, Alignment.Value alignment) {
         // find the closest core
         Transform closestCore = null;
         float minDist = Mathf.Infinity;
@@ -70,11 +70,7 @@ public class CoreBuildManager : MonoBehaviour {
 
         // position is valid if in territory and the closest core is an ally
         return closestCore != null
-            && closestCore.GetComponent<Alignment>().IsPlayerOwned();
-    }
-
-    public static CoreController[] GetAllCores() {
-        return GameObject.FindObjectsOfType<CoreController>();
+            && closestCore.GetComponent<Alignment>().IsAllyTo(alignment);
     }
 
 }

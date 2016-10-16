@@ -4,7 +4,6 @@ using System.Collections;
 public class UnitWeaponry : MonoBehaviour {
 
     public BasePayload payload;
-    GameObject projectilePrefab;
     GameObject target;
     Alignment alignment;
 
@@ -16,7 +15,6 @@ public class UnitWeaponry : MonoBehaviour {
 
     void Start() {
         alignment = GetComponent<Alignment>();
-        projectilePrefab = (GameObject)Resources.Load("Projectile");
     }
 	
 	void Update() {
@@ -38,7 +36,7 @@ public class UnitWeaponry : MonoBehaviour {
         Targetable closest = null;
         float minDist = Mathf.Infinity;
         foreach (Targetable core in GameObject.FindObjectsOfType<Targetable>()) {
-            if (core.GetComponent<Alignment>().IsPlayerOwned() != alignment.IsPlayerOwned()) {
+            if (core.GetComponent<Alignment>().IsEnemyTo(alignment)) {
                 float dist = (core.transform.position - transform.position).sqrMagnitude;
                 if (dist < minDist) {
                     minDist = dist;

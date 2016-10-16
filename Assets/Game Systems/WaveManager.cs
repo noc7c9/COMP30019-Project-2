@@ -24,7 +24,7 @@ public class WaveManager : MonoBehaviour {
 	}
 
     void GenerateWave() {
-        foreach (CoreController core in CoreBuildManager.GetAllCores()) {
+        foreach (CoreController core in FindObjectsOfType<CoreController>()) {
             core.GenerateUnits();
         }
     }

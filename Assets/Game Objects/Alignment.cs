@@ -3,11 +3,19 @@ using System.Collections;
 
 public class Alignment : MonoBehaviour {
 
+    public enum Value {
+        Player,
+        Enemy
+    };
+
+    public static readonly Value PLAYER = Value.Player;
+    public static readonly Value ENEMY = Value.Enemy;
+
     Color PLAYER_COLOR = new Color(0, 0.25f, 1);
     Color ENEMY_COLOR = new Color(1, 0, 0);
 
     [SerializeField]
-    bool playerOwned = false;
+    Value value = Value.Player;
 
     void Start() {
         RefreshColor();
@@ -21,39 +29,49 @@ public class Alignment : MonoBehaviour {
     }
 
     public Color GetColor() {
-        return playerOwned ? PLAYER_COLOR : ENEMY_COLOR;
+        return value == Value.Player ? PLAYER_COLOR : ENEMY_COLOR;
     }
 
-    // absolute methods
-    public void SetAsPlayerOwned() {
-        playerOwned = true;
-    }
-    public bool IsPlayerOwned() {
-        return playerOwned;
+    public void SetAsAllyTo(Value other) {
+        value = other;
+        RefreshColor();
     }
 
-    // comparative methods
+    public void SetAsEnemyTo(Value other) {
+        value = value == Value.Player ? Value.Enemy : Value.Player;
+        RefreshColor();
+    }
 
+    public bool IsAllyTo(Value other) {
+        return value == other;
+    }
+
+    public bool IsEnemyTo(Value other) {
+        return value != other;
+    }
+
+    // Alignment component versions
     public void SetAsAllyTo(Alignment other) {
         if (other != null) {
-            playerOwned = other.playerOwned;
-            RefreshColor();
+            SetAsAllyTo(other.value);
         }
     }
-
     public void SetAsEnemyTo(Alignment other) {
         if (other != null) {
-            playerOwned = !other.playerOwned;
-            RefreshColor();
+            SetAsEnemyTo(other.value);
         }
     }
-
     public bool IsAllyTo(Alignment other) {
-        return other != null ? playerOwned == other.playerOwned : false;
+        if (other != null) {
+            return IsAllyTo(other.value);
+        }
+        return false;
     }
-
     public bool IsEnemyTo(Alignment other) {
-        return other != null ? playerOwned != other.playerOwned : false;
+        if (other != null) {
+            return IsEnemyTo(other.value);
+        }
+        return false;
     }
 
     // GameObject versions
