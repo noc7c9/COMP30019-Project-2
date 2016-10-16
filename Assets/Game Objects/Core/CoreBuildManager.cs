@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class CoreBuildManager : MonoBehaviour {
 
+    BuildPointsManager buildPointsManager;
     GameObject corePrefab;
 
     int inTerritoryCheckLayerMask;
@@ -18,12 +19,14 @@ public class CoreBuildManager : MonoBehaviour {
     void Start() {
         inTerritoryCheckLayerMask = LayerMask.GetMask("Territory");
         unoccupiedCheckLayerMask = ~LayerMask.GetMask("Territory", "Floor");
+
+        buildPointsManager = FindObjectOfType<PlayerResources>().buildPoints;
     }
 
     void Update() {
         foreach (RaycastHit hit in InputManager.GetTapsOnMap()) {
-            if (BuildPointsManager.CanDecrement()) {
-                BuildPointsManager.Decrement();
+            if (buildPointsManager.CanDecrement()) {
+                buildPointsManager.Decrement();
                 SpawnCore(hit.point);
             }
         }

@@ -1,40 +1,32 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+﻿public class BuildPointsManager {
 
-public class BuildPointsManager : MonoBehaviour {
+    int buildPoints;
 
-    public int buildPoints = 0;
-
-    public Text display;
-
-    static BuildPointsManager instance;
-
-    void Awake() {
-        instance = this;
+    public BuildPointsManager(int buildPoints) {
+        this.buildPoints = buildPoints;
     }
 
-    void Update() {
-        display.text = buildPoints.ToString();
+    public int GetPoints() {
+        return buildPoints;
     }
 
-    public static bool CanIncrement(int value=1) {
+    public bool CanIncrement(int value=1) {
         return true;
     }
 
-    public static bool CanDecrement(int value=1) {
-        return instance.buildPoints >= value;
+    public bool CanDecrement(int value=1) {
+        return buildPoints >= value;
     }
 
-    public static void Increment(int value=1) {
+    public void Increment(int value=1) {
         if (CanIncrement(value)) {
-            instance.buildPoints += value;
+            buildPoints += value;
         }
     }
 
-    public static void Decrement(int value=1) {
+    public void Decrement(int value=1) {
         if (CanDecrement(value)) {
-            instance.buildPoints -= value;
+            buildPoints -= value;
         }
     }
 

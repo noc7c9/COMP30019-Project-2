@@ -3,8 +3,10 @@ using System.Collections;
 
 public class CoreController : MonoBehaviour {
 
-    GameObject unitPrefab;
+    UnitPointsManager unitPointsManager;
     Alignment alignment;
+
+    GameObject unitPrefab;
 
     public int queueCount = 0;
 
@@ -12,6 +14,12 @@ public class CoreController : MonoBehaviour {
         unitPrefab = (GameObject) Resources.Load("Unit");
 
         alignment = GetComponent<Alignment>();
+
+        if (alignment.IsPlayerOwned()) {
+            unitPointsManager = FindObjectOfType<PlayerResources>().unitPoints;
+        } else {
+
+        }
     }
 
     void OnGUI() {
@@ -22,17 +30,11 @@ public class CoreController : MonoBehaviour {
         center.y = Screen.height - center.y;
         GUI.Label(new Rect(center.x - 10, center.y - 10, 20, 20), queueCount.ToString(), "box");
     }
-    /*
-    void Update() {
-        if (h.healthPoints <= 0) {
-            ps.Emit(100);
-            Destroy(this.gameObject,ps.duration);
-        }
-    }*/
     
     void OnDestroy() {
-        
-        UnitPointsManager.Increment(queueCount);
+        if (unitPointsManager != null) {
+            unitPointsManager.Increment(queueCount);
+        }
     }
 
     public void GenerateUnits() {

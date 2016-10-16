@@ -3,17 +3,28 @@ using System.Collections;
 
 public class HealthPoints : MonoBehaviour {
 
+    BuildPointsManager buildPointsManager;
+
     public int healthPoints = 10;
     public int maxHealthPoints = 10;
 
-    private bool displayHP = true;
-    private ParticleSystem ps;
-    
+    bool displayHP = true;
+    ParticleSystem ps;
+
+    void Awake() {
+        // on destruction we will increment the opposing sides build points
+        if (GetComponent<Alignment>().IsPlayerOwned()) {
+
+        } else {
+            buildPointsManager = FindObjectOfType<PlayerResources>().buildPoints;
+        }
+    }
+
     void Update() {
         if (enabled && healthPoints <= 0) {
             enabled = false;
-            if (!GetComponent<Alignment>().IsPlayerOwned()) {
-                BuildPointsManager.Increment();
+            if (buildPointsManager != null) {
+                buildPointsManager.Increment();
             }
             displayHP = false;
             ps = GetComponentInChildren<ParticleSystem>();

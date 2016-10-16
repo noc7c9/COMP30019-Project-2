@@ -1,41 +1,38 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+﻿public class UnitPointsManager {
 
-public class UnitPointsManager : MonoBehaviour {
+    int unusedUnitPoints;
+    int maxUnitPoints;
 
-    public int unusedUnitPoints = 0;
-    public int maxUnitPoints = 3;
-
-    public Text display;
-
-    static UnitPointsManager instance;
-
-    void Awake() {
-        instance = this;
+    public UnitPointsManager(int unusedUnitPoints, int maxUnitPoints) {
+        this.maxUnitPoints = maxUnitPoints;
+        this.unusedUnitPoints = unusedUnitPoints;
     }
 
-    void Update() {
-        display.text = unusedUnitPoints + "/" + maxUnitPoints;
+    public int GetUnusedPoints() {
+        return unusedUnitPoints;
     }
 
-    public static bool CanIncrement(int value=1) {
-        return instance.unusedUnitPoints <= instance.maxUnitPoints - value;
+    public int GetMaxPoints() {
+        return maxUnitPoints;
     }
 
-    public static bool CanDecrement(int value=1) {
-        return instance.unusedUnitPoints >= value;
+    public bool CanIncrement(int value=1) {
+        return unusedUnitPoints <= maxUnitPoints - value;
     }
 
-    public static void Increment(int value=1) {
+    public bool CanDecrement(int value=1) {
+        return unusedUnitPoints >= value;
+    }
+
+    public void Increment(int value=1) {
         if (CanIncrement(value)) {
-            instance.unusedUnitPoints = instance.unusedUnitPoints + value;
+            unusedUnitPoints = unusedUnitPoints + value;
         }
     }
 
-    public static void Decrement(int value=1) {
+    public void Decrement(int value=1) {
         if (CanDecrement(value)) {
-            instance.unusedUnitPoints -= value;
+            unusedUnitPoints -= value;
         }
     }
 
