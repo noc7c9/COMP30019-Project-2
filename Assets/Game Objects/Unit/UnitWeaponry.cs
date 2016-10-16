@@ -4,14 +4,14 @@ using System.Collections;
 public class UnitWeaponry : MonoBehaviour {
 
     public BasePayload payload;
-    GameObject target;
-    Alignment alignment;
 
     public float range = 35;
-    public float projectileVelocity = 25;
 
     public float fireCooldownMax = 1f;
     float fireCooldown = 0;
+
+    GameObject target;
+    Alignment alignment;
 
     void Start() {
         alignment = GetComponent<Alignment>();

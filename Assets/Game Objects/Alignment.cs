@@ -22,9 +22,8 @@ public class Alignment : MonoBehaviour {
     }
 
     void RefreshColor() {
-        Renderer renderer = GetComponentInChildren<Renderer>();
-        if (renderer) {
-            renderer.material.color = GetColor();
+        foreach (Renderer r in GetComponentsInChildren<Renderer>()) {
+            r.material.color = GetColor();
         }
     }
 
