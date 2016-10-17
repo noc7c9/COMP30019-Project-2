@@ -35,7 +35,7 @@ public class CameraController : MonoBehaviour {
                 offset.x += pan.x * panSpeed;
                 offset.z += pan.y * panSpeed;
             }
-            focusPoint.position += offset / drags.Count;
+            focusPoint.Translate(offset / drags.Count);
         }
         
         // get device tilt values
