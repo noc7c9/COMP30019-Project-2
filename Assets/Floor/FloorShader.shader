@@ -14,12 +14,14 @@
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma multi_compile_fwdbase
+			#pragma target 3.0
 			
 			#define MAX_CORES 20
 
 			#include "UnityShaderVariables.cginc"
 			#include "AutoLight.cginc"
 			#include "Assets/Helpers/Helpers.cginc"
+			#include "UnityCG.cginc"
 
 			uniform float _GridBrightness;
 			uniform float _TerritoryBrightness;
@@ -36,8 +38,8 @@
 			};
 
 			struct vertOut {
-				float4 vertex : SV_POSITION;
-				float4 worldVertex : TEXCOORD0;
+				float4 pos : SV_POSITION;
+				float4 vertex : TEXCOORD0;
 				LIGHTING_COORDS(1, 2)
 			};
 
@@ -63,8 +65,8 @@
 			vertOut vert(vertIn v) {
 				vertOut o;
 
-				o.worldVertex = worldVertex(v.vertex);
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = worldVertex(v.vertex);
+				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 				
 				TRANSFER_VERTEX_TO_FRAGMENT(o);
 				
@@ -73,7 +75,7 @@
 
 			fixed4 frag(vertOut v) : SV_Target {
 				// generate color based on grid
-				float4 color = grid(v.worldVertex.xz, 4) * _GridBrightness;
+				float4 color = grid(v.vertex.xz, 4) * _GridBrightness;
 
 				// find closest core (within territory range)
 				// and tint the grid with that core's color
@@ -81,7 +83,7 @@
 				float3 tint = float3(0, 0, 0); // no tint by default
 				for (int i = 0; i < _NumCores; i++) {
 					// ignore y coord for distance
-					float dist = length(v.worldVertex.xz - _CorePositions[i].xz);
+					float dist = length(v.vertex.xz - _CorePositions[i].xz);
 					if (dist < minDist) {
 						minDist = dist;
 
@@ -107,4 +109,5 @@
 			ENDCG
 		}
 	}
+	Fallback "Diffuse"
 }
